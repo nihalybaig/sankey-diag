@@ -1,0 +1,48 @@
+@import "~bootstrap/scss/bootstrap";
+/* adjust path as needed */
+@import "../node_modules/font-awesome/scss/font-awesome.scss";
+
+
+/* use the font */
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 48px;
+    background: rgb(218, 219, 211);
+}
+
+/* simple - enter transition 300ms, exit 150ms */
+.fade-appear,
+.fade-enter {
+    opacity: 0;
+    z-index: 1;
+}
+.fade-appear-active,
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms linear 100ms;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+    opacity: 0;
+    transition: opacity 0ms linear;
+}
+
+.p-30{
+    padding: 30px;
+}
+
+.p-0{
+    padding: 0 !important;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.fa {
+    margin-right: 5px;
+}
