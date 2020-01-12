@@ -1,4 +1,4 @@
-import { SankeyData } from '../constants/SankeyData';
+import { SankeyData } from './SankeyData';
 
 const nodeMap = 
         SankeyData.expenditures.map((e)=>{
@@ -29,7 +29,7 @@ const linkMap = SankeyData.expenditures.map((e,index)=>{
         })
     )
 
-export const data = 
+export const processedData = 
     {
         "nodes": nodeMap,
         "links": linkMap

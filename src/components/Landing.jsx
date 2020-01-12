@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { data } from '../constants/sankey-data';
+import { processedData as data } from '../constants/ProcessData';
 import { SankeyData } from '../constants/SankeyData';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import Details from './Details';
@@ -13,7 +13,7 @@ import { Trans } from "react-i18next";
 
 import { sankey, sankeyLinkHorizontal } from "d3-sankey";
 
-const SankeyNode = ({ name, x0, x1, y0, y1, color, text }) => {
+const SankeyNode = ({ name, x0, x1, y0, y1, color, text, selected }) => {
   return(
     text ?
       <OverlayTrigger
@@ -27,15 +27,15 @@ const SankeyNode = ({ name, x0, x1, y0, y1, color, text }) => {
         }
       >
         <g>
-          <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} fillOpacity=".7" fill={color}></rect>
-          <text x={x0+10} y={y0+((y1-y0)/2)+5} fill="white" fontSize="15" fontWeight="600">
+          <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} fillOpacity={selected ? ".75":".5"} fill={color}></rect>
+          <text x={x0+10} y={y0+((y1-y0)/2)+5} fill={selected ? "blue":"white"} fontSize="15" fontWeight="600">
             <Trans>{name}</Trans>
           </text>
         </g>
       </OverlayTrigger>
       : 
       <g>
-        <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} fillOpacity=".6" fill={color}></rect>
+        <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} fillOpacity=".3" fill={color}></rect>
         <text x={x0+10} y={y0+((y1-y0)/2)+5} fill="white" fontSize="15" fontWeight="3">
           <Trans>{name}</Trans>
         </text>
@@ -48,7 +48,7 @@ const SankeyLink = ({ link, color }) => (
     d={sankeyLinkHorizontal()(link)}
     style={{
       fill: "none",
-      strokeOpacity: ".6",
+      strokeOpacity: ".3",
       stroke: color,
       strokeWidth: Math.max(1, link.width)
     }}
@@ -98,7 +98,7 @@ class Landing extends Component {
 
   render(){
     var margin = { top: 10, right: 0, bottom: 10, left: 0 };
-    var width = 900 - margin.left - margin.right;
+    var width = 700 - margin.left - margin.right;
     var height = 600 - margin.top - margin.bottom;
   
     const { nodes, links } = sankey()
@@ -116,7 +116,7 @@ class Landing extends Component {
     
     return (
       <div className="row container-fluid p-30">
-          <div className="col-lg-9">
+          <div style={{width: "75%", maxWidth: "800px", marginLeft: "100px"}}>
             <h2><Trans>Sankey Diagram</Trans></h2>
             <svg width="100%" height="600">
                 <g style={{ mixBlendMode: "multiply" }}>
@@ -135,6 +135,7 @@ class Landing extends Component {
                           y0={node.y0}
                           y1={node.y1}
                           name={node.name}
+                          selected={selectedIndex===i}
                           text = {s.type ? SankeyData[s.type][s.id].text : null}
                           />
                         </g>
